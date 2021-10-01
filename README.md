@@ -25,3 +25,21 @@
 [hardhat](https://www.npmjs.com/package/hardhat) - Hardhat is an Ethereum development environment for professionals. It facilitates performing frequent tasks, such as running tests, automatically checking code for mistakes or interacting with a smart contract. Check out the plugin list to use it with your existing tools.
 
 [ipfs-http-clients](htA client library for the IPFS HTTP API, implemented in JavaScript. This client library implements the IPFS Core API enabling applications to change between an embedded js-ipfs node and any remote IPFS node without having to change the code. In addition, this client library implements a set of utility functions.
+
+# Notes for Hardhat package
+
+## Basic Sample Hardhat Project
+
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+
+Try running some of the following tasks:
+
+```shell
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+node scripts/sample-script.js
+npx hardhat help
+```
