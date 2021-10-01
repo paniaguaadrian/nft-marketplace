@@ -56,7 +56,7 @@ contract NFTMarket is ReentrancyGuard{
         return listingPrice;
     }
 
-    // Functions to interact with the contract. **************************
+    // Functions to interact with the contract.
 
     // 1. Function to create a market item and put it for sale.
     function createMarketItem(
@@ -136,5 +136,31 @@ contract NFTMarket is ReentrancyGuard{
         payable(owner).transfer(listingPrice);
 
     }
+
+    // Utility functions to interact with our Market Place
+    // 1.- Returns all the unsold items.
+    function fetchMarketItems() public view returns (MarketItem[] memory){
+        // It's public and view to access from our front end and also because there is no transaction related.
+        // It will returns an array of items.
+
+        uint itemCount = _itemIds.current(); // Get the number of items in the market.
+        uint unsoldItemCount = _itemIds.current() - _itemsSold.current(); // Get the number of items that are not sold.
+        uint currentIndex = 0;
+
+        MarketItem[] memory items = new MarketItem[](unsoldItemCount); // Create an array of items.
+        // Loop over the number of items that have been created
+        for (uint i = 0; i < itemCount; i++){
+            // Check if this item is unsold. And know it by the owner of the item. If the owner is 0 (as address), we know that this item is not sold yet.
+            if(idToMarketItem[i+1].owner == address(0)){
+                uint currentId = idToMarketItem[i+1].itemId; // Get the id of the item that we are interactive with.
+                MarketItem storage currentItem = idToMarketItem[currentId]; // Get a reference to the item that we want to insert on the array.
+                items[currentIndex] = currentItem; // Insert the item on the array.
+                currentIndex += 1; // Increment the current index of the array
+            }
+        }
+        return items;
+    }
+    // 2.- Returns the items that I've created.
+    // 3.- Returns only the items that I've purschased.
 }
 
