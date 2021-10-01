@@ -10,9 +10,11 @@
 
 **Client:** React, NextJs, TailwindCss, Chai
 
-**Blockchain related:** Hardhat, Etheres, ipfs, nomiclabs
+**Blockchain related:** Hardhat, Etheres, ipfs, nomiclabs, Polygon (Matic)
 
 ## Documentation
+
+### Packages
 
 [@nomiclabs/hardhat-ethers](https://www.npmjs.com/package/@nomiclabs/hardhat-ethers) - This plugin brings to Hardhat the Ethereum library ethers.js, which allows you to interact with the Ethereum blockchain in a simple way.
 
@@ -25,6 +27,14 @@
 [hardhat](https://www.npmjs.com/package/hardhat) - Hardhat is an Ethereum development environment for professionals. It facilitates performing frequent tasks, such as running tests, automatically checking code for mistakes or interacting with a smart contract. Check out the plugin list to use it with your existing tools.
 
 [ipfs-http-clients](htA client library for the IPFS HTTP API, implemented in JavaScript. This client library implements the IPFS Core API enabling applications to change between an embedded js-ipfs node and any remote IPFS node without having to change the code. In addition, this client library implements a set of utility functions.
+
+### Protocols
+
+[Polygon(Matic) Networks](https://docs.polygon.technology/docs/develop/network-details/network) - On Polygon test networks there are a lot of traffic so maybe our work would fail. To solve this, we will be using Infura.
+
+[Polygon test network => Polygon Mumbai](https://docs.polygon.technology/docs/develop/network-details/network)
+
+[Infura](https://infura.io/) - Infura is a provider of different nodes and endpoints.
 
 # Notes for Hardhat package
 
