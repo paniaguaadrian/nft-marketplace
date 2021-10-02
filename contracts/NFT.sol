@@ -2,13 +2,19 @@
 
 pragma solidity ^0.8.4;
 
-// Connected yo our npm package of OpenZeppelin
+// Connected to our npm package of OpenZeppelin
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+ /* ----------------------------------------------------------------------------------------
+    ERC721 is a token standard on Ethereum for Non-Fungible Tokens (NFT).
+    Fungible means interchangeable and replaceable so something like Bitcoin is fungible because any Bitcoin can replace another Bitcoin.
+    Each NFT, on the other hand, is completely unique. One NFT cannot replace another.
+----------------------------------------------------------------------------------------- */
 
 // This give us an extra function "setTokenUrl" allows us to set the token URL
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-// Use this utility to increment numbers (like it's builded)
+// Use this utility to increment numbers (like it's builded for us)
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NFT is ERC721URIStorage {
@@ -19,6 +25,17 @@ contract NFT is ERC721URIStorage {
  /* ----------------------------------------------------------------------------------------
     Takes the marketplace address as the only argument, and we set the contractAddress to this marketplaceAddress.
     We first deploy the market, and then deploy the contract.
+
+    Constructor:
+    Constructor is a special function declared using constructor keyword.
+    It is an optional funtion and is used to initialize state variables of a contract.
+    Following are the key characteristics of a constructor:
+        - A contract can have only one constructor.
+        - A constructor code is executed once when a contract is created and it is used to initialize contract state.
+        - After a constructor code executed, the final code is deployed to blockchain. This code include public functions and code reachable through public functions. Constructor code or any internal method used only by constructor are not included in final code.
+        - A constructor can be either public or internal.
+        - A internal constructor marks the contract as abstract.
+        - In case, no constructor is defined, a default constructor is present in the contract.
 ----------------------------------------------------------------------------------------- */
     constructor(address marketplaceAddress) ERC721("Metaverse Tokens", "METT"){
         contractAddress = marketplaceAddress;

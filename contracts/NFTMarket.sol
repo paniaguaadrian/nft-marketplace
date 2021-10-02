@@ -63,18 +63,18 @@ contract NFTMarket is ReentrancyGuard{
         address nftContract, // The address of the owner/creator of the item
         uint256 tokenId, // id of the item
         uint price // Price of the item (the user decides how much)
-    ) public payable nonReentrant{ // nonReentrant to prevent reentry attacks. This is a modifier
+    ) public payable nonReentrant{ // nonReentrant to prevent reentry attacks. This is a modifier.
         // Require conditions for that function:
         require(price > 0, "Price must be at least 1 wei" );
 
-        // It's a must that the creator wirtes the listin price for this item.
+        // It's a must that the creator writes the listing price for this item.
         require(msg.value == listingPrice, "Price must be equal to listing price");
 
         // Id for the marketplace item
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
 
-        // Create a MarketItem
+        // Create the MarketItem
         idToMarketItem[itemId] = MarketItem(
             itemId,
             nftContract,
@@ -101,7 +101,7 @@ contract NFTMarket is ReentrancyGuard{
         );
     }
 
-    // 2. Creating a market sale for buying or selling and item between parties.
+    // 2. Creating a market sale for buying or selling an item between parties.
     function createMarketSale(
         address nftContract,
         uint256 itemId
@@ -121,7 +121,7 @@ contract NFTMarket is ReentrancyGuard{
         // Transfer the ownership of this token to the msg.sender
         // It's from the address(this) because this means that the owner at this moment is the contract itself.
         // We send to the msg.sender, who is the BUYER
-        // The tokenId is actually the id of the item, of the good, of the NFT.
+        // The tokenId is actually the id of the item, of the good, of the NFT, of the digital asset.
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
 
         // Set the local value for the owner to be the msg.sender
@@ -152,7 +152,7 @@ contract NFTMarket is ReentrancyGuard{
         for (uint i = 0; i < itemCount; i++){
             // Check if this item is unsold. And know it by the owner of the item. If the owner is 0 (as address), we know that this item is not sold yet.
             if(idToMarketItem[i+1].owner == address(0)){
-                uint currentId = idToMarketItem[i+1].itemId; // Get the id of the item that we are interactive with.
+                uint currentId = idToMarketItem[i+1].itemId; // Get the id of the item that we are interacting with.
                 MarketItem storage currentItem = idToMarketItem[currentId]; // Get a reference to the item that we want to insert on the array.
                 items[currentIndex] = currentItem; // Insert the item on the array.
                 currentIndex += 1; // Increment the current index of the array
@@ -160,7 +160,55 @@ contract NFTMarket is ReentrancyGuard{
         }
         return items;
     }
-    // 2.- Returns the items that I've created.
-    // 3.- Returns only the items that I've purschased.
-}
 
+    // 2.- Returns only the items that I've purschased.
+    function fetchMyNFTs() public view returns (MarketItem[] memory){
+        uint totalItemCount = _itemIds.current(); // Get the number of items in the market.
+        uint itemCount = 0;
+        uint curentIndex = 0; // Get the current index of the array.
+
+        // Get the number of items that we have purchased.
+        for (uint i = 0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].owner == msg.sender){
+                itemCount += 1; // Inrease the itemCount for those items that the user has purshased.
+            }
+        }
+
+        // Now we can map and loop on that array to populate (get all the data) of this items that we've purshased.
+        MarketItem[] memory items = new MarketItem[](itemCount); // Now we can use items to see that items purshased.
+        for (uint i = 0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].owner == msg.sender){ // Check if this item is mine
+                uint currentId = idToMarketItem[i+1].itemId; // Get the id of the item that we are interacting with.
+                MarketItem storage currentItem = idToMarketItem[currentId]; // Get a reference to the item that we want to insert on the array.
+                items[curentIndex] = currentItem; // Insert the item on the array.
+                curentIndex += 1; // Increment the current index of the array
+            }
+        }
+         return items;
+    }
+
+    // 3.- Returns the items that I've created.
+    function fetchItemsCreated() public view returns (MarketItem[] memory){
+        // Different as previous functions, we will see if the owner is the msg.seller and not the msg.sender.
+        uint totalItemCount = _itemIds.current();
+        uint itemCount = 0;
+        uint currentIndex = 0;
+
+        for (uint i = 0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].seller == msg.sender){
+                itemCount += 1;
+            }
+        }
+
+        MarketItem[] memory items = new MarketItem[](itemCount);
+        for (uint i = 0; i < totalItemCount; i++){
+            if(idToMarketItem[i+1].seller == msg.sender){ // If true, I'm the person who created this item.
+                uint currentId = idToMarketItem[i+1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
+                items[currentIndex] = currentItem;
+                currentIndex += 1;
+            }
+        }
+        return items;
+    }
+}
