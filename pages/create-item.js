@@ -20,16 +20,18 @@ export default function CreateItem() {
   const router = useRouter()
 
   // * Function to create and update the file URL
-  const onChange = async (e) => {
+  async function onChange(e) {
     const file = e.target.files[0] // Take the first item of the array
 
     try {
       // Ipload the file to IPFS
       // We track the process of the uploading with the callback function progress: ...
-      const added = await client.add(file, { progress: (prog) => console.log(`received: ${prog}`) })
+      const added = await client.add(file, {
+        progress: (prog) => console.log(`received: ${prog}`),
+      })
 
       // When is uploaded, we can access to the added url
-      const url = `https://ipfs.infura.io:ipfs/${added.path}`
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`
 
       // We save the url yo our state variable
       setFileUrl(url)
@@ -55,7 +57,7 @@ export default function CreateItem() {
       const added = await client.add(data)
 
       // IPFS path that includes the name, description, and the image URL to a separate IPFS
-      const url = `https://ipfs.infura.io:ipfs/${added.path}`
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`
 
       // Set the url as the token url (Look at the next function)
       createSale(url)
@@ -116,24 +118,19 @@ export default function CreateItem() {
           className="mt-8 border rounded p-4"
           onChange={(e) => updateFormInput({ ...formInput, name: e.target.value })}
         />
-
         <textarea
-          placeholder="Assed Description"
+          placeholder="Asset Description"
           className="mt-2 border rounded p-4"
           onChange={(e) => updateFormInput({ ...formInput, description: e.target.value })}
         />
-
         <input
           placeholder="Asset Price in Eth"
           className="mt-2 border rounded p-4"
           onChange={(e) => updateFormInput({ ...formInput, price: e.target.value })}
         />
-
         <input type="file" name="Asset" className="my-4" onChange={onChange} />
-
-        {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} alt="token image" />}
-
-        <button onClick={createSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        {fileUrl && <img className="rounded mt-4" width="350" src={fileUrl} />}
+        <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
           Create Digital Asset
         </button>
       </div>

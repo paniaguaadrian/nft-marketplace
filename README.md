@@ -56,19 +56,19 @@ npx hardhat help
 
 ## Steps to Deploy contracts
 
-# 1.- Run a local node
+### 1.- Run a local node
 
 ```shell
 npx hardhat node
 ```
 
-# 2.- Deploy our contracts
+### 2.- Deploy our contracts
 
 ```shell
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-# 3.- Run our App
+### 3.- Run our App
 
 ```shell
 npm run dev
