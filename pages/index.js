@@ -60,7 +60,7 @@ export default function Home() {
         // Create the item object with returned data inside on it
         let item = {
           price,
-          tokenID: i.tokenId.toNumber(),
+          tokenId: i.tokenId.toNumber(),
           seller: i.seller,
           owner: i.owner,
           image: meta.data.image,
@@ -108,23 +108,26 @@ export default function Home() {
       <div className="px-4" style={{ maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
-            <div className="border shadow rounded-xl overflow-hidden" key={i}>
-              <img src={nft.image} alt="nft image" />
-              <div className="p-4">
-                <p style={{ height: '64px' }} className="text-2xl font-semibold">
-                  {nft.name}
-                </p>
-                <div style={{ height: '70px', overflow: 'hidden' }}>
-                  <p className="text-gray-400">{nft.description}</p>
+            <>
+              {console.log(nft)}
+              <div className="border shadow rounded-xl overflow-hidden" key={i}>
+                <img src={nft.image} alt="nft image" />
+                <div className="p-4">
+                  <p style={{ height: '64px' }} className="text-2xl font-semibold">
+                    {nft.name}
+                  </p>
+                  <div style={{ height: '70px', overflow: 'hidden' }}>
+                    <p className="text-gray-400">{nft.description}</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-black">
+                  <p className="text-2xl mb-4 font-bold text-white">{nft.price} Matic</p>
+                  <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>
+                    Buy
+                  </button>
                 </div>
               </div>
-              <div className="p-4 bg-black">
-                <p className="text-2xl mb-4 font-bold text-white">{nft.price} Matic</p>
-                <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>
-                  Buy
-                </button>
-              </div>
-            </div>
+            </>
           ))}
         </div>
       </div>
